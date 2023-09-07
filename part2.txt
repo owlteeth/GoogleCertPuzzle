@@ -1,0 +1,15 @@
+We are greeted by a console. I can retrieve challenges with request and use the following other commands:
+cd	change directory [dir_name]
+cat	print file [file_name]
+deleteme	delete all of your data associated with foobar
+edit	open file in editor [file_name]
+feedback	provide feedback on foobar
+less	print a file a page at a time [file_name]
+ls	list directory contents [dir_name]
+request	request new challenge
+status	print progress
+submit	submit final solution file for assessment [file_name]
+verify	runs tests on solution file [file_name]
+
+requesting the first challenge gets "thecakeisnotalie" folder
+working in cake.py

@@ -2,6 +2,8 @@
 def solution(s):
     """Implements the function specced in the-cake-is-not-a-lie (first challenge on https://foobar.withgoogle.com/)
     Given a non-empty string less than 200 characters in length describing the sequence of M&Ms, returns the maximum number of equal parts that can be cut from the cake without leaving any leftovers.
+
+    Completed in: 1 hr, 43 mins, 2 secs.
     """
     cake = s
     mnms = len(cake)

@@ -1,27 +1,10 @@
+def rsum(n):
+    return n*(n+1)/2
 
-def to_base(number, base):
-    base_string = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    result = ""
-    while number:
-        result += base_string[number % base]
-        number //= base
-    return int(result[::-1]) or 0
+def thingy(x,y):
+    return rsum(x) + rsum(x+y) #if this is it, must be a way to reuse the work in first part
 
-
-def to_base_simpler(number, base):
-    #base_string = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    result = []
-    while number:
-        result.append(number % base)
-        number //= base
-    result.reverse()
-    return result or []
-
-x = to_base_simpler(123,3)
-print(x)
-print(type(x))
-"""
-0 -> 0
-2 -> 2
-
-"""
+a = rsum(5)
+b = rsum(4)
+print(a)
+print(b)

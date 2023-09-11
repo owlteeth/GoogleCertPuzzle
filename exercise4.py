@@ -1,57 +1,56 @@
 # division problem
 # three operations increment, decrement, divide by 2 if even
-# find shortest sequence to reduce n<= 309 (why?) to 1
-# something about getting it to a power of 2
-# 
+# find shortest sequence to reduce n<= 309 digits (why?) to 1
+# ok, so I know how to write  a wokrign recursive solution,
+# but  it doesn't pass a  bunch of their tests
+# memoizing got one more test
+# I'm not allowed to up the recursion limit to what's needed
+# need to rewrite as iterative I guuess
+# I needed to lean on https://stackoverflow.com/questions/39588554/minimum-number-of-steps-to-reduce-number-to-1/39589499#39589499
+# Completed in: 7 hrs, 34 mins, 7 secs..
 
-POWERS_OF_2 = {1,2,4,8,16,32,64,128,256}
-solution = []
+import math
 
-def record(item):
-    #global solution
-    #solution.append(item)
-    pass
-
-def solution_recursive(n, spread, steps):
-    if n <= 1: # base case
-        return steps
-        #return steps
-    # if n is even, can't do better than immediately /2
-    if not n % 2:
-        n = int(n/2)
-        steps += 1
-        record(n)
-        return solution_recursive(n, spread, steps)
-    else: #n is odd
-        #look for a close power of 2 (more elegant way with sets?)
-        for i in range(spread,0,-1):
-            if (n-i in POWERS_OF_2):
-                o = n
-                p = ">" * i
-                n -= i
-                steps += i
-                record(f"{o}{p}{n}")
-                return solution_recursive(n, spread, steps)
-            elif (n+i in POWERS_OF_2):
-                o = n
-                p = ">" * i
-                n += i
-                steps += i
-                record(f"{o}{p}{n}")
-                return solution_recursive(n, spread, steps)
-        # search failed
-        n -= 1
-        steps += 1
-        record(n)
-        return solution_recursive(n, spread, steps)
-    
-def solution(n):
-    n = int(n)
-    steps = solution_recursive(n, 1, 0)
-    print(f"{n} -> {solution} len {steps}")
-    return steps
+memo = {}
 
 
+def solution_recursive(n):
+    if n == 1:  # base case
+        return 0
+
+    if n % 2:
+        m = n - 1
+        o = n + 1
+        if m not in memo:
+            memo[m] = solution_recursive(m)
+        if (o) not in memo:
+            memo[o] = solution_recursive(o)
+        return 1 + min(memo[m], memo[o])
+
+    else:
+        h = n // 2
+        if h not in memo:
+            memo[h] = solution_recursive(h)
+        return 1 + memo[h]
+
+
+def nearest_power_of_2(n):
+    l = math.log(n, 2)
+    lf = math.floor(l)
+    lc = math.ceil(l)
+    a = l - lf
+    b = lc - l
+    if min(a, b) == a:
+        return 2**lf
+    else:
+        return 2**lc
+
+
+def approximate_steps_remaining(n):
+    return math.ceil(math.log(n, 2) * 2)
+
+
+"""
 def tester():
     ns = range(1, 310)
     spreads = range(0, 11)
@@ -59,41 +58,34 @@ def tester():
     for spread in spreads:
         line = [solution_recursive(n, spread, 0) for n in ns]
         print(f"total steps using spread {spread}: {sum(line)}")
-
-
 """
+
 
 def solution_iterative(n):
-    spread = 5
     steps = 0
-    while n>1:
-        #checklist = {p-n for x in POWERS_OF_2}
-        #distance = min(checklist)
-        # if n is even, can't do better than immediately  /2
+    while n > 1:
         if not n % 2:
-            n = n/2
-            steps += 1
-        elif: #n is odd
-            for i in range(spread):
-                if (n-i in POWERS_OF_2):
-                    n -= i
-                    steps += i
-                elif (n+i in POWERS_OF_2):
-                    n += i
-                    steps += i
-        else
-            if n % 2: # n is odd
-                if (n+1 in POWERS_OF_2):
-                    n += 1
-
-
+            n = n / 2
+        elif n == 3 or n % 4 == 1:
+            n -= 1
+        else:
+            n += 1
+        steps += 1
     return steps
-"""
 
-solution(4)
-solution(15)  
-solution(301)  
-#tester()
+
+def solution(n):
+    n = int(n)
+    # steps = solution_recursive(n)
+    steps = solution_iterative(n)
+    return steps
+
+
+print(solution(4))
+print(solution(15))
+print(solution(301))
+print(solution(10**300))
+# tester()
 
 """
 If I use -1 at point a, tests  1,2,4 and 9 pass

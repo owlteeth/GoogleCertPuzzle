@@ -1,3 +1,6 @@
+import sys 
+
+sys.setrecursionlimit(3500)
 memo = {}
 
 
@@ -15,7 +18,7 @@ def solution_recursive(n):
         return 1 + min(memo[m], memo[o])
 
     else:
-        h = int(n / 2)
+        h = n // 2
         if h not in memo:
             memo[h] = solution_recursive(h)
         return 1 + memo[h]
